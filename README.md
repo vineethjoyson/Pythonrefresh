@@ -432,6 +432,13 @@ print(max(numbers))
 ```
 
 ------------------------------------------------------------------------
+FASTAPI
+```create requirement.txt command
+pip freeze > requirements.txt
+```
+```we need to create an env
+
+
 
 # Author
 
