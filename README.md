@@ -438,6 +438,219 @@ pip freeze > requirements.txt
 ```
 ```we need to create an env
 
+# FastAPI Project Structure
+
+This repository follows a **scalable and production-ready FastAPI folder
+structure**.\
+It separates API routes, business logic, schemas, and database layers
+for maintainability.
+
+------------------------------------------------------------------------
+
+# 📁 Project Structure
+
+    project/
+    │
+    ├── app/
+    │   ├── main.py
+    │   │
+    │   ├── routers/
+    │   │   ├── user_router.py
+    │   │   └── order_router.py
+    │   │
+    │   ├── schemas/
+    │   │   └── user_schema.py
+    │   │
+    │   ├── models/
+    │   │   └── user_model.py
+    │   │
+    │   ├── services/
+    │   │   └── user_service.py
+    │   │
+    │   ├── database/
+    │   │   └── connection.py
+    │   │
+    │   ├── config/
+    │   │   └── settings.py
+    │   │
+    │   └── utils/
+    │       └── helper.py
+    │
+    ├── requirements.txt
+    ├── README.md
+    └── venv/
+
+------------------------------------------------------------------------
+
+# Folder Explanation
+
+## main.py
+
+Entry point of the FastAPI application.
+
+``` python
+from fastapi import FastAPI
+from app.routers import user_router
+
+app = FastAPI()
+
+app.include_router(user_router.router)
+```
+
+Run the application:
+
+    uvicorn app.main:app --reload
+
+------------------------------------------------------------------------
+
+## routers
+
+Contains API route definitions.
+
+Example:
+
+``` python
+from fastapi import APIRouter
+
+router = APIRouter()
+
+@router.get("/users")
+def get_users():
+    return {"users": []}
+```
+
+------------------------------------------------------------------------
+
+## schemas
+
+Defines request and response models using Pydantic.
+
+``` python
+from pydantic import BaseModel
+
+class User(BaseModel):
+    name: str
+    age: int
+```
+
+------------------------------------------------------------------------
+
+## models
+
+Contains database models (ORM).
+
+``` python
+from sqlalchemy import Column, Integer, String
+
+class UserModel(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+```
+
+------------------------------------------------------------------------
+
+## services
+
+Contains business logic.
+
+``` python
+def get_users():
+    return [{"name": "John", "age": 30}]
+```
+
+------------------------------------------------------------------------
+
+## database
+
+Handles database connection configuration.
+
+``` python
+from sqlalchemy import create_engine
+
+engine = create_engine("DATABASE_URL")
+```
+
+------------------------------------------------------------------------
+
+## config
+
+Application configuration and environment variables.
+
+``` python
+from pydantic import BaseSettings
+
+class Settings(BaseSettings):
+    database_url: str
+```
+
+------------------------------------------------------------------------
+
+## utils
+
+Reusable helper functions such as logging, date utilities, and
+formatting helpers.
+
+------------------------------------------------------------------------
+
+# Application Flow
+
+    Client Request
+          ↓
+    Router (API endpoint)
+          ↓
+    Service Layer (Business Logic)
+          ↓
+    Database / Model
+          ↓
+    Response Schema
+
+------------------------------------------------------------------------
+
+# Run the Application
+
+Install dependencies:
+
+    pip install -r requirements.txt
+
+Start server:
+
+    uvicorn app.main:app --reload
+
+Open API documentation:
+
+    http://127.0.0.1:8000/docs
+
+------------------------------------------------------------------------
+
+# Tech Stack
+
+-   FastAPI
+-   Pydantic
+-   Uvicorn
+-   SQLAlchemy (optional)
+-   Python 3.10+
+
+------------------------------------------------------------------------
+
+# Best Practices
+
+-   Keep routers thin
+-   Put business logic in services
+-   Use schemas for validation
+-   Separate database layer
+-   Use environment variables for configuration
+
+------------------------------------------------------------------------
+
+# Example APIs
+
+    GET /users
+    POST /users
+    GET /orders
+
+
 
 
 # Author
